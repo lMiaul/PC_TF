@@ -6,6 +6,8 @@
 #include <queue>
 #include <algorithm>
 #include <conio.h>
+#include <string>
+#include <climits>
 
 class Grafo {
     private:
@@ -136,6 +138,58 @@ void mostrarMenu() {
     std::cout << "Ingrese una opcion: ";
 }
 
+bool Numero(std::string linea) {
+	bool num = true;
+	int longitud = linea.size();
+
+	if (longitud == 0) {
+		num = false;
+	}
+	else if (longitud == 1 && !isdigit(linea[0])) {
+		if (linea[0] == '-') { 
+			num = false;
+		}
+	}
+	else {
+		int indice = 0;
+		if (linea[0] == '+') {
+			indice = 1;
+		}
+		while (indice < longitud) {
+			if (!isdigit(linea[indice])) {
+				num = false;
+				break;
+			}
+			indice++;
+		}
+	}
+	return num;
+}
+
+void llenarNumeroInt(int& n) {
+	std::string dato;
+	int num;
+	bool correcto = false;
+
+	do {
+		std::cout << "---> ";
+		std::cin >> dato;
+
+		if (Numero(dato)) {
+			correcto = true;
+			num = atoi(dato.c_str()); // convierte de cadena a entero (puntero de caracteres)
+		}
+
+		else {
+			correcto = false;
+			std::cout << "El valor ingresado no es correcto." << std::endl;
+		}
+	} while (correcto == false);
+
+	n = num;
+}
+
+
 int main() {
     Grafo* grafoActual = nullptr;
     int opcion;
@@ -159,6 +213,19 @@ int main() {
                 grafoActual->agregarArista(4, 2, 6);
                 std::cout << "Grafo inicializado con " << numNodos << " nodos." << std::endl;
                 std::cout << "Pulse cualquier botón para continuar..."<<std::endl;
+                int origen = 0; 
+                int destino = 2; 
+
+                std::pair<std::vector<int>, std::vector<int>> resultado = Dijkstra(*grafoActual, origen);
+                std::vector<int> distancias = resultado.first;
+                std::vector<int> previo = resultado.second;
+                std::vector<int> camino = reconstruirCamino(previo, destino);
+
+                std::cout << "Origen: " << origen << "-> Destino: " << destino << std::endl;
+                for (int nodo : camino) {
+                    std::cout << nodo << " ";
+                }
+                std::cout <<"\nPeso mínimo del camino encontrado: "<<distancias[destino]<< std::endl;
                 getch();
                 system("cls"); // Clear the console screen
             }else{
@@ -172,11 +239,11 @@ int main() {
             } else {
                 int u, v, peso;
                 std::cout << "Ingrese el nodo origen: ";
-                std::cin >> u;
+                llenarNumeroInt(u);
                 std::cout << "Ingrese el nodo destino: ";
-                std::cin >> v;
+                llenarNumeroInt(v);
                 std::cout << "Ingrese el peso de la arista: ";
-                std::cin >> peso;
+                llenarNumeroInt(peso);
                 grafoActual->agregarArista(u, v, peso);
                 std::cout << "Arista agregada de " << u << " a " << v << " con peso " << peso << "." << std::endl;
             }
@@ -186,9 +253,9 @@ int main() {
             } else {
                 int u, v;
                 std::cout << "Ingrese el nodo origen: ";
-                std::cin >> u;
+                llenarNumeroInt(u);
                 std::cout << "Ingrese el nodo destino: ";
-                std::cin >> v;
+                llenarNumeroInt(v);
                 grafoActual->setDisponibilidad(u, v, false);
                 std::cout << "Disponibilidad de la arista de " << u << " a " << v << " establecida a false." << std::endl;
             }
