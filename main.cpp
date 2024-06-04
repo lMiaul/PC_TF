@@ -138,32 +138,26 @@ void mostrarMenu() {
     std::cout << "Ingrese una opcion: ";
 }
 
-bool Numero(std::string linea) {
-	bool num = true;
-	int longitud = linea.size();
+bool Numero(const std::string& linea) {
+    if (linea.empty()) {
+        return false;
+    }
 
-	if (longitud == 0) {
-		num = false;
-	}
-	else if (longitud == 1 && !isdigit(linea[0])) {
-		if (linea[0] == '-') { 
-			num = false;
-		}
-	}
-	else {
-		int indice = 0;
-		if (linea[0] == '+') {
-			indice = 1;
-		}
-		while (indice < longitud) {
-			if (!isdigit(linea[indice])) {
-				num = false;
-				break;
-			}
-			indice++;
-		}
-	}
-	return num;
+    int indice = 0;
+    if (linea[0] == '+' || linea[0] == '-') {
+        if (linea.size() == 1) {
+            return false;
+        }
+        indice = 1;
+    }
+
+    for (int i = indice; i < linea.size(); ++i) {
+        if (!isdigit(linea[i])) {
+            return false;
+        }
+    }
+
+    return true;
 }
 
 void llenarNumeroInt(int& n) {
