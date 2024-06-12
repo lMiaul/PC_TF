@@ -135,7 +135,7 @@ std::vector<int> reconstruirCamino(const std::vector<int>& previo, int destino) 
 void mostrarMenu() {
     std::cout << "Menu:" << std::endl;
     std::cout << "1. Inicializar mapa." << std::endl;
-    std::cout << "2. Agregar arista." << std::endl;
+    std::cout << "2. Agregar tuberia." << std::endl;
     std::cout << "3. Establecer disponibilidad de tuberia a No Disponible." << std::endl;
     std::cout << "4. Ver mapa actual." << std::endl;
     std::cout << "5. Calcular rutas optimas de cada pozo/centro de agua." << std::endl;
@@ -289,6 +289,7 @@ int main() {
                         std::cout << "Ingrese el peso de la arista: ";
                         llenarNumeroInt(peso);
                         grafoActual->agregarArista(u, v, peso);
+                        callPythonFunction(pModule, "agregar_tuberia", PyTuple_Pack(3, PyLong_FromLong(u), PyLong_FromLong(v), PyLong_FromLong(peso)));
                         std::cout << "Arista agregada de " << u << " a " << v << " con peso " << peso << "." << std::endl;
                     }
                     std::cout << "Presione una tecla para continuar" << std::endl;
