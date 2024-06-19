@@ -307,6 +307,7 @@ int main() {
                         std::cout << "Ingrese el nodo destino: ";
                         llenarNumeroInt(v);
                         grafoActual->setDisponibilidad(u, v, false);
+                        callPythonFunction(pModule, "establecer_disponibilidad", PyTuple_Pack(2, PyLong_FromLong(u), PyLong_FromLong(v)));
                     }
                     std::cout << "Presione una tecla para continuar" << std::endl;
                     std::cin.ignore();
