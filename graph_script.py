@@ -117,7 +117,7 @@ def inicializar_grafo():
     G.add_weighted_edges_from(edges_with_weights)
     pos = nx.spring_layout(G)
     plt.figure(figsize=(8, 6))
-    nx.draw(G, pos, with_labels=True, node_size=700, node_color="skyblue", font_size=10, font_weight="bold", edge_color="black", connectionstyle='arc3, rad=0.1')
+    nx.draw(G, pos, with_labels=True, node_size=700, node_color="skyblue", font_size=10, font_weight="bold", edge_color="blue", connectionstyle='arc3, rad=0.1')
     edge_labels = {(u, v): d['weight'] for u, v, d in G.edges(data=True)}
     my_draw_networkx_edge_labels(G, pos, edge_labels=edge_labels, label_pos=0.5, font_size=7, rad=0.1)
     plt.title("Visualización del mapa inicial")
@@ -127,7 +127,8 @@ def inicializar_grafo():
 def mostrar_grafo():
     pos = nx.spring_layout(G)
     plt.figure(figsize=(8, 6))
-    nx.draw(G, pos, with_labels=True, node_size=700, node_color="skyblue", font_size=10, font_weight="bold", edge_color="black", connectionstyle='arc3, rad=0.1')
+    edge_colors = ['red' if G[u][v].get('is_available') == False else 'blue' for u, v in G.edges()]
+    nx.draw(G, pos, with_labels=True, node_size=700, node_color="skyblue", font_size=10, font_weight="bold", edge_color=edge_colors, connectionstyle='arc3, rad=0.1')
     edge_labels = {(u, v): d['weight'] for u, v, d in G.edges(data=True)}
     my_draw_networkx_edge_labels(G, pos, edge_labels=edge_labels, label_pos=0.5, font_size=7, rad=0.1)
     plt.title("Visualización del mapa")
@@ -138,9 +139,14 @@ def add_node(node):
     G.add_node(node)
     return f"Node {node} added."
 
-def add_edge(u, v, weight=1.0):
+def agregar_tuberia(u, v, weight=1.0):
     G.add_edge(u, v, weight=weight)
-    return f"Edge ({u}, {v}) with weight {weight} added."
+    return "Tuberia correctamente."
+
+def establecer_disponibilidad(u, v):
+    if G.has_edge(u, v):
+        G[u][v]['is_available'] = False
+    return "Tubería no disponible."
 
 def plot_graph():
     pos = nx.spring_layout(G)
