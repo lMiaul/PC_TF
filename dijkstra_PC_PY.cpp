@@ -137,7 +137,7 @@ void mostrarMenu() {
     std::cout << "1. Inicializar mapa." << std::endl;
     std::cout << "2. Agregar tuberia." << std::endl;
     std::cout << "3. Establecer disponibilidad de tuberia a No Disponible." << std::endl;
-    std::cout << "4. Ver mapa actual." << std::endl;
+    std::cout << "4. Ver mapa actual y descargarlo." << std::endl;
     std::cout << "5. Calcular rutas optimas de cada pozo/centro de agua." << std::endl;
     std::cout << "6. Salir" << std::endl;
     std::cout << "Ingrese una opcion: ";
@@ -255,20 +255,6 @@ int main() {
 
                         // Llamado de la función inicializar_grafo en Python
                         callPythonFunction(pModule, "inicializar_grafo", nullptr);
-
-                        int origen = 0;
-                        int destino = 2;
-
-                        std::pair<std::vector<int>, std::vector<int>> resultado = Dijkstra(*grafoActual, origen);
-                        std::vector<int> distancias = resultado.first;
-                        std::vector<int> previo = resultado.second;
-                        std::vector<int> camino = reconstruirCamino(previo, destino);
-
-                        std::cout << "Origen: " << origen << " -> Destino: " << destino << std::endl;
-                        for (int nodo : camino) {
-                            std::cout << nodo << " ";
-                        }
-                        std::cout << "\nPeso mínimo del camino encontrado: " << distancias[destino] << std::endl;
                     } else {
                         std::cout << "El grafo ya ha sido inicializado." << std::endl;
                     }
