@@ -132,8 +132,9 @@ def mostrar_grafo():
     edge_labels = {(u, v): d['weight'] for u, v, d in G.edges(data=True)}
     my_draw_networkx_edge_labels(G, pos, edge_labels=edge_labels, label_pos=0.5, font_size=7, rad=0.1)
     plt.title("Visualización del mapa")
+    plt.savefig("mapa_actual.png")
     plt.show()
-    return "Mapa mostrado correctamente"
+    return "Mapa mostrado y descargado correctamente"
 
 def add_node(node):
     G.add_node(node)
@@ -147,15 +148,3 @@ def establecer_disponibilidad(u, v):
     if G.has_edge(u, v):
         G[u][v]['is_available'] = False
     return "Tubería no disponible."
-
-def plot_graph():
-    pos = nx.spring_layout(G)
-    plt.figure(figsize=(8, 6))
-    nx.draw(G, pos, with_labels=True, node_size=700, node_color="skyblue", font_size=10, font_weight="bold", edge_color="black", connectionstyle='arc3, rad = 0.1')
-    labels = nx.get_edge_attributes(G, 'weight')
-    nx.draw_networkx_edge_labels(G, pos, edge_labels=labels)
-    plt.title("Graph Visualization")
-    plt.savefig("graph.png")
-    plt.show()
-    plt.close()
-    return "Graph saved as graph.png"
