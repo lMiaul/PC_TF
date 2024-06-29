@@ -102,7 +102,7 @@ def my_draw_networkx_edge_labels(
 
     return text_items
 
-def inicializar_grafo():
+def inicializar_rutas():
     edges_with_weights = [(0, 1, 10),
                           (0, 3, 5),
                           (1, 2, 1),
@@ -122,9 +122,9 @@ def inicializar_grafo():
     my_draw_networkx_edge_labels(G, pos, edge_labels=edge_labels, label_pos=0.5, font_size=7, rad=0.1)
     plt.title("Visualización del mapa inicial")
     plt.show()
-    return "Mapa mostrado correctamente"
+    return "Rutas mostradas correctamente"
 
-def mostrar_grafo():
+def mostrar_rutas():
     pos = nx.spring_layout(G)
     plt.figure(figsize=(8, 6))
     edge_colors = ['red' if G[u][v].get('is_available') == False else 'blue' for u, v in G.edges()]
@@ -134,17 +134,19 @@ def mostrar_grafo():
     plt.title("Visualización del mapa")
     plt.savefig("mapa_actual.png")
     plt.show()
-    return "Mapa mostrado y descargado correctamente"
-
-def add_node(node):
-    G.add_node(node)
-    return f"Node {node} added."
+    return "Rutas mostradas y descargadas correctamente"
 
 def agregar_tuberia(u, v, weight=1.0):
     G.add_edge(u, v, weight=weight)
-    return "Tuberia correctamente."
+    return "Tuberia agregada correctamente."
+
+def establecer_no_disponibilidad(u, v):
+    if G.has_edge(u, v):
+        G[u][v]['is_available'] = False
+    return "Tubería deshabilitada."
 
 def establecer_disponibilidad(u, v):
     if G.has_edge(u, v):
-        G[u][v]['is_available'] = False
-    return "Tubería no disponible."
+        G[u][v]['is_available'] = True
+    return "Tubería habilitada."
+
